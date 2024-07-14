@@ -47,8 +47,7 @@ void sdf_from_stl(
 	const float coord[3] = { coord_x[i], coord_y[j], coord_z[k] };
 
 	// The number of recorded nearest polygons.
-	// Odd number
-	constexpr int num_memo = 15;
+	constexpr int num_memo = 3;
 
 	// Nearest polygons info
 	int nearest_id[num_memo];
@@ -86,20 +85,19 @@ void sdf_from_stl(
 		}
 	}
 
-	int cnt_pos = 0, cnt_neg = 0;
+	float dot_sum = 0;
 	for (int i_memo = 0; i_memo < num_memo; i_memo++)
 	{
 		float dot = 0.0;
 		const int id = nearest_id[i_memo];
 		for (int axis = 0; axis < 3; axis++)
 			dot += (polys[id].center[axis] - coord[axis]) * polys[id].normal[axis];
-		if ( dot > 0 ) cnt_pos++;
-		else           cnt_neg++;
+		dot_sum += dot / nearest_dist[i_memo];
 	}
 
 	int sign = -1;
-	if ( cnt_pos > cnt_neg ) sign = sign_inside;  // The cell is inside object.
-	else                     sign = -sign_inside; // The cell is outside object.
+	if ( dot_sum > 0 ) sign = sign_inside;  // The cell is inside object.
+	else               sign = -sign_inside; // The cell is outside object.
 
 	sdf_cc[index] = sign * nearest_dist[0];
 }
