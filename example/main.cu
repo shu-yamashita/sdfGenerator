@@ -11,8 +11,8 @@ int main()
 
 	real* ls_cc = new real[NXYZ];
 
-	const char* file_path = "./hori.stl";
-	//const char* file_path = "./Part1.stl";
+	//const char* file_path = "./hori.stl";
+	const char* file_path = "./Part1.stl";
 
 	const float domain_len[3] = { 60, 60, 60 };
 	const float dh[3] = {

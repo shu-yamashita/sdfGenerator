@@ -129,7 +129,8 @@ void sdf_from_stl(
 {
 	std::vector<polygon> h_polys;
 
-	readSTL( h_polys, file_path, offset, scale_factor );
+	const float thres_refine = 0.5 * (coord[0][1] - coord[0][0]);
+	readSTL( h_polys, file_path, offset, scale_factor, true, thres_refine );
 
 	const int NXYZ = num_cell[0] * num_cell[1] * num_cell[2];
 
