@@ -15,7 +15,7 @@ namespace sdfGenerator
 template <typename T>
 __global__
 void get_levelset_from_stl(
-		T* ls_cc,
+		T* sdf_cc,
 		const polygon* polys,
 		const float* coord_x, // x-coordinate of cell-centers.
 		const float* coord_y, // y-coordinate of cell-centers.
@@ -91,16 +91,15 @@ void get_levelset_from_stl(
 	if ( cnt_pos > cnt_neg ) sign = sign_inside;  // The cell is inside object.
 	else                     sign = -sign_inside; // The cell is outside object.
 
-	ls_cc[index] = sign * nearest_dist[0];
+	sdf_cc[index] = sign * nearest_dist[0];
 }
 
 
 /*
- * Reads STL files and creates level set functions.
- * The level set function is a signed distance function from the object surface.
+ * Reads STL files and creates signed distance field from the object surface.
  *
  * Parameters ( All parameters are allocated on host memory. )
- *   ls_cc       : Level-set function at cell-center.
+ *   sdf_cc      : signed distance field at cell-center.
  *   file_path   : Path of stl file.
  *   num_cell    : Number of cells in each direction.
  *   coord       : Coordinates of cell-centers in each direction.
@@ -110,7 +109,7 @@ void get_levelset_from_stl(
  */
 template <typename T>
 void sdf_from_stl(
-		T* ls_cc,
+		T* sdf_cc,
 		const char* file_path,
 		const int num_cell[3],
 		const float* const coord[3],
@@ -165,11 +164,11 @@ void sdf_from_stl(
 	const int NXYZ = num_cell[0] * num_cell[1] * num_cell[2];
 
 	// 'd_' means the address of the device memory.
-	T* d_ls_cc;
+	T* d_sdf_cc;
 	polygon* d_polys;
 	float* d_coord[3];
 
-	cudaMalloc( &d_ls_cc, sizeof(T) * NXYZ );
+	cudaMalloc( &d_sdf_cc, sizeof(T) * NXYZ );
 	cudaMalloc( &d_polys, sizeof(polygon) * num_polygons );
 	for (int axis = 0; axis < 3; axis++)
 	{
@@ -190,17 +189,17 @@ void sdf_from_stl(
 
 	// Calc levelset function.
 	get_levelset_from_stl<<<grid, block>>>(
-			d_ls_cc, d_polys,
+			d_sdf_cc, d_polys,
 			d_coord[0], d_coord[1], d_coord[2],
 			num_cell[0], num_cell[1], num_cell[2],
 			num_polygons, sign_inside );
 
 	cudaMemcpy(
-			ls_cc, d_ls_cc, sizeof(T) * NXYZ,
+			sdf_cc, d_sdf_cc, sizeof(T) * NXYZ,
 			cudaMemcpyDeviceToHost );
 
 	delete[] h_polys;
-	cudaFree( d_ls_cc );
+	cudaFree( d_sdf_cc );
 	cudaFree( d_polys );
 	for (int axis = 0; axis < 3; axis++) cudaFree( d_coord[axis] );
 }

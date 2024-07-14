@@ -12,7 +12,7 @@ namespace sdfGenerator
  * Reads STL files and creates signed distance field from the object surface.
  *
  * Parameters ( All parameters are allocated on host memory. )
- *   ls_cc       : Level-set function at cell-center.
+ *   sdf_cc      : signed distance field at cell-center.
  *   file_path   : Path of stl file.
  *   num_cell    : Number of cells in each direction.
  *   coord       : Coordinates of cell-centers in each direction.
@@ -22,7 +22,7 @@ namespace sdfGenerator
  */
 template <typename T>
 void sdf_from_stl(
-		T* ls_cc,
+		T* sdf_cc,
 		const char* file_path,
 		const int num_cell[3],
 		const float* const coord[3],
