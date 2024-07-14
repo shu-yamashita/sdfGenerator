@@ -9,9 +9,10 @@ int main()
 
 	double* ls_cc = new double[NXYZ];
 
-	const char* file_path = "./Stanford_Bunny.stl";
+	const char* file_path = "./hori.stl";
+	//const char* file_path = "./Part1.stl";
 
-	const float domain_len[3] = { 1, 1, 1 };
+	const float domain_len[3] = { 60, 60, 60 };
 	const float dh[3] = {
 		domain_len[0] / num_cell[0],
 		domain_len[1] / num_cell[1],
@@ -27,17 +28,14 @@ int main()
 
 	const float* coord[3] = { coord_x, coord_y, coord_z };
 
-	const float offset[3] = { 0.3, 0.5, -0.1 };
+	const float offset[3] = { 26, 1, 26 };
 
-	STL_to_LS_CUDA::get_levelset_from_stl<double>( ls_cc, file_path, num_cell, coord, offset, 1, 0.008 );
+	STL_to_LS_CUDA::get_levelset_from_stl<double>( ls_cc, file_path, num_cell, coord, offset, 1, 1 );
 
-	cudaDeviceSynchronize();
-
-	vtk_write( "bunny.vtk", ls_cc, num_cell, dh );
+	vtk_write( "part1.vtk", ls_cc, num_cell, dh );
 
 	delete[] ls_cc;
-	for (int axis = 0; axis < 3; axis++)
-		delete[] (coord[axis]);
+	for (int axis = 0; axis < 3; axis++) delete[] (coord[axis]);
 
 	return 0;
 }

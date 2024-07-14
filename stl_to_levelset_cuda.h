@@ -81,41 +81,62 @@ void get_levelset_from_stl(
 
 	const float coord[3] = { coord_x[i], coord_y[j], coord_z[k] };
 
-	// Nearest polygon-center info
-	float min_dist  = 1e5;
-	vec3d to_center = { 0.0, 0.0, 0.0 };
-	vec3d normal    = { 1.0, 0.0, 0.0 };
+	// The number of recorded nearest polygons.
+	// Odd number
+	constexpr int num_memo = 15;
 
-	// Find the nearest polygon.
+	// Nearest polygons info
+	int nearest_id[num_memo];
+	float nearest_dist[num_memo];
+	for (int i = 0; i < num_memo; i++)
+	{
+		nearest_id[i]   = -1;
+		nearest_dist[i] = 1e10;
+	}
+
+	// Search all polygons.
 	for (unsigned int id_p = 0; id_p < num_polygons; id_p++)
 	{
-		vec3d to_center_tmp;
+		float dist_now = 0.0;
 		for (int axis = 0; axis < 3; axis++)
-			to_center_tmp[axis] = polys[id_p].center[axis] - coord[axis];
-
-		float dist_tmp = 0.0;
-		for (int axis = 0; axis < 3; axis++)
-			dist_tmp += to_center_tmp[axis] * to_center_tmp[axis];
-		dist_tmp = sqrt( dist_tmp );
-
-		if ( dist_tmp < min_dist )
 		{
-			min_dist  = dist_tmp;
-			to_center = to_center_tmp;
-			normal    = polys[id_p].normal;
+			const float to_center = polys[id_p].center[axis] - coord[axis];
+			dist_now += to_center * to_center;
+		}
+		dist_now = sqrt( dist_now );
+
+		for (int i_memo = 0; i_memo < num_memo; i_memo++)
+		{
+			if ( nearest_id[i_memo] == -1 || dist_now < nearest_dist[i_memo] )
+			{
+				for (int j_memo = num_memo - 1; j_memo > i_memo; j_memo--)
+				{
+					nearest_id[j_memo]   = nearest_id[j_memo - 1];
+					nearest_dist[j_memo] = nearest_dist[j_memo - 1];
+				}
+				nearest_id[i_memo]   = id_p;
+				nearest_dist[i_memo] = dist_now;
+				break;
+			}
 		}
 	}
 
-	// The dot product of the vector to the closest polygon and the normal vector.
-	float dot = 0.0;
-	for (int axis = 0; axis < 3; axis++)
-		dot += to_center[axis] * normal[axis];
+	int cnt_pos = 0, cnt_neg = 0;
+	for (int i_memo = 0; i_memo < num_memo; i_memo++)
+	{
+		float dot = 0.0;
+		const int id = nearest_id[i_memo];
+		for (int axis = 0; axis < 3; axis++)
+			dot += (polys[id].center[axis] - coord[axis]) * polys[id].normal[axis];
+		if ( dot > 0 ) cnt_pos++;
+		else           cnt_neg++;
+	}
 
 	int sign = -1;
-	if ( dot > 0.0 ) sign = sign_inside;  // The cell is inside object.
-	else             sign = -sign_inside; // The cell is outside object.
+	if ( cnt_pos > cnt_neg ) sign = sign_inside;  // The cell is inside object.
+	else                     sign = -sign_inside; // The cell is outside object.
 
-	ls_cc[index] = sign * min_dist;
+	ls_cc[index] = sign * nearest_dist[0];
 }
 
 
