@@ -1,13 +1,15 @@
 
-#include <stl_to_levelset_cuda.h>
-#include <vtk.h>
+#include <all.h>
+#include <example/vtk.h>
+
+using real = double;
 
 int main()
 {
 	const int num_cell[3] = { 100, 100, 100 };
 	const int NXYZ = num_cell[0] * num_cell[1] * num_cell[2];
 
-	double* ls_cc = new double[NXYZ];
+	real* ls_cc = new real[NXYZ];
 
 	const char* file_path = "./Stanford_Bunny.stl";
 
@@ -29,15 +31,12 @@ int main()
 
 	const float offset[3] = { 0.3, 0.5, -0.1 };
 
-	STL_to_LS_CUDA::get_levelset_from_stl<double>( ls_cc, file_path, num_cell, coord, offset, 1, 0.008 );
+	sdfGenerator::sdf_from_stl<real>( ls_cc, file_path, num_cell, coord, offset, 1, 0.008 );
 
-	cudaDeviceSynchronize();
-
-	vtk_write( "bunny.vtk", ls_cc, num_cell, dh );
+	vtk_write<real>( "bunny.vtk", ls_cc, num_cell, dh );
 
 	delete[] ls_cc;
-	for (int axis = 0; axis < 3; axis++)
-		delete[] (coord[axis]);
+	for (int axis = 0; axis < 3; axis++) delete[] (coord[axis]);
 
 	return 0;
 }
