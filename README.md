@@ -1,4 +1,4 @@
-# STL_to_LS_CUDA
+# sdfGenerator
 
 Convert STL to Level-set function.
 
