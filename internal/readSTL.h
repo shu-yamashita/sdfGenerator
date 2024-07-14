@@ -55,10 +55,10 @@ void readSTL(
 			}
 		}
 
-		polygon p;
-		p.setter( vbuff, nbuff );
+		polygon tmp_polygon;
+		tmp_polygon.setter( vbuff, nbuff );
+		polys.push_back(tmp_polygon);
 
-		polys.push_back(p);
 		ifs.seekg(2, std::ios_base::cur);
 	}
 
