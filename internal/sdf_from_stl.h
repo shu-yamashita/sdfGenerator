@@ -11,10 +11,9 @@
 namespace sdfGenerator
 {
 
-// Calculate the level-set function.
 template <typename T>
 __global__
-void get_levelset_from_stl(
+void sdf_from_stl(
 		T* sdf_cc,
 		const polygon* polys,
 		const float* coord_x, // x-coordinate of cell-centers.
@@ -188,7 +187,7 @@ void sdf_from_stl(
 			(num_cell[2] + block.z - 1) / block.z );
 
 	// Calc levelset function.
-	get_levelset_from_stl<<<grid, block>>>(
+	sdf_from_stl<<<grid, block>>>(
 			d_sdf_cc, d_polys,
 			d_coord[0], d_coord[1], d_coord[2],
 			num_cell[0], num_cell[1], num_cell[2],
