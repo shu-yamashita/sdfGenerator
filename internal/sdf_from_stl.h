@@ -47,7 +47,7 @@ void sdf_from_stl(
 	const float coord[3] = { coord_x[i], coord_y[j], coord_z[k] };
 
 	// The number of recorded nearest polygons.
-	constexpr int num_memo = 3;
+	constexpr int num_memo = 8;
 
 	// Nearest polygons info
 	int nearest_id[num_memo];
