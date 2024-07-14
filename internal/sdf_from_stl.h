@@ -1,60 +1,15 @@
 
-/*
- * Convert STL to level-set function.
- *
- * Reference ( I refered to [1] for reading stl files and [2] for calculating level set functions. )
- *
- *   [1] (Qiita) バイナリフォーマットstlファイルをC++で読み込む,
- *       Author: @JmpM (まるや),
- *       url: https://qiita.com/JmpM/items/9355c655614d47b5d67b
- *
- *   [2] Mittal et al., A versatile sharp interface immersed boundary method for incompressible flows with complex boundaries.,
- *       Journal of Computational Physics 227 (2008) 4825-4852,
- *       url: https://www.sciencedirect.com/science/article/pii/S0021999108000235
- */
+#ifndef INCLUDED_SDFGENERATOR_INTERNAL_SDF_FROM_STL_H
+#define INCLUDED_SDFGENERATOR_INTERNAL_SDF_FROM_STL_H
 
-
-#ifndef INCLUDED_STL_TO_LEVELSET_CUDA_H
-#define INCLUDED_STL_TO_LEVELSET_CUDA_H
 
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <internal/struct.h>
 
-namespace STL_to_LS_CUDA
+namespace sdfGenerator
 {
-
-struct vec3d
-{
-	float elems_[3];
-	__host__ __device__
-	      float& operator[]( const int axis )       { return elems_[axis]; }
-	__host__ __device__
-	const float& operator[]( const int axis ) const { return elems_[axis]; }
-};
-
-
-struct polygon
-{
-	// Center of polygon.
-	// Computed as the average of three vertices.
-	vec3d center;
-
-	// Normal vector.
-	vec3d normal;
-
-	void setter(
-			// Coordinate of three vertices.
-			const vec3d v[3],
-			// Normal vector
-			const vec3d& n )
-	{
-		for (int axis = 0; axis < 3; axis++)
-			center[axis] = ( v[0][axis] + v[1][axis] + v[2][axis] ) / 3;
-		normal = n;
-	}
-};
-
 
 // Calculate the level-set function.
 template <typename T>
@@ -154,7 +109,7 @@ void get_levelset_from_stl(
  *   scale factor: Coefficient to multiply STL coordinate data by ( 1.0 by default ).
  */
 template <typename T>
-void get_levelset_from_stl(
+void sdf_from_stl(
 		T* ls_cc,
 		const char* file_path,
 		const int num_cell[3],
@@ -250,7 +205,7 @@ void get_levelset_from_stl(
 	for (int axis = 0; axis < 3; axis++) cudaFree( d_coord[axis] );
 }
 
-} // namespace STL_to_LS_CUDA
+} // namespace sdfGenerator
 
-#endif
+#endif // INCLUDED_SDFGENERATOR_INTERNAL_SDF_FROM_STL_H
 

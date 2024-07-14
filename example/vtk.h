@@ -14,9 +14,10 @@
 
 #include <fstream>
 
+template <typename T>
 void vtk_write(
 		const char* vtk_filename,
-		const double* ls_cc,
+		const T* ls_cc,
 		const int num_cell[3],
 		const float dh[3] )
 {
@@ -46,7 +47,6 @@ void vtk_write(
 	}
 
 	ofs.close();
-
 }
 
 #endif
