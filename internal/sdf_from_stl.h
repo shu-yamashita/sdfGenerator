@@ -142,10 +142,9 @@ void sdf_from_stl(
 	cudaMalloc( &d_polys, sizeof(polygon) * h_polys.size() );
 	for (int axis = 0; axis < 3; axis++)
 	{
-		cudaMalloc( &(d_coord[axis]), sizeof(float) * num_cell[axis] );
-		cudaMemcpy(
-				d_coord[axis], coord[axis], sizeof(float) * num_cell[axis],
-				cudaMemcpyHostToDevice );
+		const size_t nbytes = sizeof(float) * num_cell[axis];
+		cudaMalloc( &(d_coord[axis]), nbytes );
+		cudaMemcpy( d_coord[axis], coord[axis], nbytes, cudaMemcpyHostToDevice );
 	}
 	cudaMemcpy(
 			d_polys, h_polys.data(), sizeof( polygon ) * h_polys.size(),
@@ -163,9 +162,9 @@ void sdf_from_stl(
 			num_cell[0], num_cell[1], num_cell[2],
 			h_polys.size(), sign_inside );
 
-	cudaMemcpy(
-			sdf_cc, d_sdf_cc, sizeof(T) * NXYZ,
-			cudaMemcpyDeviceToHost );
+	cudaDeviceSynchronize();
+
+	cudaMemcpy( sdf_cc, d_sdf_cc, sizeof(T) * NXYZ, cudaMemcpyDeviceToHost );
 
 	cudaFree( d_sdf_cc );
 	cudaFree( d_polys );

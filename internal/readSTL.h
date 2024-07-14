@@ -8,9 +8,11 @@
 #ifndef INCLUDED_SDFGENERATOR_INTERNAL_READ_STL_H
 #define INCLUDED_SDFGENERATOR_INTERNAL_READ_STL_H
 
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <internal/struct.h>
 
 namespace sdfGenerator
 {
@@ -63,7 +65,6 @@ void readSTL(
 	}
 
 	ifs.close();
-
 }
 
 } // namespace sdfGenerator
