@@ -1,11 +1,22 @@
+/*
+ * Reference ( I refered to [1] for reading stl files and [2] for calculating signed distance function. )
+ *
+ *   [1] (Qiita) バイナリフォーマットstlファイルをC++で読み込む,
+ *       Author: @JmpM (まるや),
+ *       url: https://qiita.com/JmpM/items/9355c655614d47b5d67b
+ *
+ *   [2] Mittal et al., A versatile sharp interface immersed boundary method for incompressible flows with complex boundaries.,
+ *       Journal of Computational Physics 227 (2008) 4825-4852,
+ *       url: https://www.sciencedirect.com/science/article/pii/S0021999108000235
+ */
 
 #ifndef INCLUDED_SDFGENERATOR_INTERNAL_SDF_FROM_STL_H
 #define INCLUDED_SDFGENERATOR_INTERNAL_SDF_FROM_STL_H
 
 
 #include <cstdlib>
-#include <fstream>
-#include <iostream>
+#include <vector>
+#include <internal/readSTL.h>
 #include <internal/struct.h>
 
 namespace sdfGenerator
@@ -116,49 +127,9 @@ void sdf_from_stl(
 		const int sign_inside = 1,
 		const float scale_factor = 1.0 )
 {
-    std::ifstream ifs( file_path, std::ios::in | std::ios::binary );
+	std::vector<polygon> h_polys;
 
-    if(!ifs)
-	{
-		std::cerr << "Can not open STL file." << std::endl;
-		std::exit(EXIT_FAILURE);
-    }
-
-	unsigned int num_polygons;
-
-	// Read number of polygons.
-	ifs.seekg(80, std::ios_base::beg);
-	ifs.read( (char*) &num_polygons, sizeof(unsigned int) );
-
-	// 'h_' means the address of the host memory.
-	polygon* h_polys = new polygon[num_polygons];
-
-
-	// Read polygon data.
-	for (unsigned int id_p = 0; id_p < num_polygons; id_p++)
-	{
-		vec3d vbuff[3], nbuff;
-
-		// Import normal vector.
-		for (int axis = 0; axis < 3; axis++)
-			ifs.read( (char*) &nbuff[axis], sizeof(float) );
-
-		// Import vertices.
-		for (int id_v = 0; id_v < 3; id_v++)
-		{
-			for (int axis = 0; axis < 3; axis++)
-			{
-				ifs.read( (char*) &vbuff[id_v][axis], sizeof(float) );
-				vbuff[id_v][axis] *= scale_factor;
-				vbuff[id_v][axis] += offset[axis];
-			}
-		}
-
-		h_polys[id_p].setter( vbuff, nbuff );
-		ifs.seekg(2, std::ios_base::cur);
-	}
-
-	ifs.close();
+	readSTL( h_polys, file_path, offset, scale_factor );
 
 	const int NXYZ = num_cell[0] * num_cell[1] * num_cell[2];
 
@@ -168,7 +139,7 @@ void sdf_from_stl(
 	float* d_coord[3];
 
 	cudaMalloc( &d_sdf_cc, sizeof(T) * NXYZ );
-	cudaMalloc( &d_polys, sizeof(polygon) * num_polygons );
+	cudaMalloc( &d_polys, sizeof(polygon) * h_polys.size() );
 	for (int axis = 0; axis < 3; axis++)
 	{
 		cudaMalloc( &(d_coord[axis]), sizeof(float) * num_cell[axis] );
@@ -177,7 +148,7 @@ void sdf_from_stl(
 				cudaMemcpyHostToDevice );
 	}
 	cudaMemcpy(
-			d_polys, h_polys, sizeof( polygon ) * num_polygons,
+			d_polys, h_polys.data(), sizeof( polygon ) * h_polys.size(),
 			cudaMemcpyHostToDevice );
 
 	const dim3 block(8, 8, 8);
@@ -186,18 +157,16 @@ void sdf_from_stl(
 			(num_cell[1] + block.y - 1) / block.y,
 			(num_cell[2] + block.z - 1) / block.z );
 
-	// Calc levelset function.
 	sdf_from_stl<<<grid, block>>>(
 			d_sdf_cc, d_polys,
 			d_coord[0], d_coord[1], d_coord[2],
 			num_cell[0], num_cell[1], num_cell[2],
-			num_polygons, sign_inside );
+			h_polys.size(), sign_inside );
 
 	cudaMemcpy(
 			sdf_cc, d_sdf_cc, sizeof(T) * NXYZ,
 			cudaMemcpyDeviceToHost );
 
-	delete[] h_polys;
 	cudaFree( d_sdf_cc );
 	cudaFree( d_polys );
 	for (int axis = 0; axis < 3; axis++) cudaFree( d_coord[axis] );
