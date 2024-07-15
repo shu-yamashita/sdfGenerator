@@ -2,7 +2,7 @@
 #ifndef INCLUDED_SDFGENERATOR_ALL_H
 #define INCLUDED_SDFGENERATOR_ALL_H
 
-#include <internal/sdf_from_stl.h>
+#include <sdfGenerator/internal/sdf_from_stl.h>
 
 namespace sdfGenerator
 {

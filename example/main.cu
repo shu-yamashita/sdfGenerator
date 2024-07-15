@@ -1,6 +1,6 @@
 
-#include <all.h>
-#include <example/vtk.h>
+#include <sdfGenerator/all.h>
+#include <sdfGenerator/example/vtk.h>
 
 using real = double;
 

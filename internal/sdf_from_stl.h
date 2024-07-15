@@ -16,8 +16,8 @@
 
 #include <cstdlib>
 #include <vector>
-#include <internal/readSTL.h>
-#include <internal/struct.h>
+#include <sdfGenerator/internal/readSTL.h>
+#include <sdfGenerator/internal/struct.h>
 
 namespace sdfGenerator
 {

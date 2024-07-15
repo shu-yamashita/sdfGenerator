@@ -13,7 +13,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
-#include <internal/struct.h>
+#include <sdfGenerator/internal/struct.h>
 
 namespace sdfGenerator
 {
