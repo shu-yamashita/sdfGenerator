@@ -1,6 +1,5 @@
-
-#include <sdfGenerator/all.h>
-#include <sdfGenerator/example/vtk.h>
+#include <sdfGenerator/gpu/STL3D.h>
+#include "./vtk.h"
 
 using real = double;
 
@@ -31,7 +30,13 @@ int main()
 
 	const float offset[3] = { 0.3, 0.5, -0.1 };
 
-	sdfGenerator::sdf_from_stl<real>( ls_cc, file_path, num_cell, coord, offset, 1, 0.008 );
+	const float scale_factor = 0.008;
+
+	//sdfGenerator::sdf_from_stl<real>( ls_cc, file_path, num_cell, coord, offset, 1, 0.008 );
+	sdfGenerator::gpu::STL3D sdf_gene;
+	sdf_gene.readSTL( file_path, offset, scale_factor );
+	sdf_gene.refinePolygon( dh[0] );
+	sdf_gene.calcSDF( ls_cc, num_cell, coord );
 
 	vtk_write<real>( "bunny.vtk", ls_cc, num_cell, dh );
 

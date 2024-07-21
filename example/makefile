@@ -2,7 +2,7 @@ TARGET := a.out
 SRCS := $(shell ls *.cu)
 OBJS := $(SRCS:.cu=.o)
 DEPS := $(SRCS:.cu=.d)
-NVCCFLAGS := -I../../
+NVCCFLAGS := -std=c++11 -I../
 
 .PHONY: all
 all: $(TARGET)
