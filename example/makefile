@@ -2,7 +2,7 @@ TARGET := a.out
 SRCS := $(shell ls *.cu)
 OBJS := $(SRCS:.cu=.o)
 DEPS := $(SRCS:.cu=.d)
-NVCCFLAGS := -std=c++11 -I../
+NVCCFLAGS := -std=c++11 -Xcompiler "-Wall -Wextra" -I../
 
 .PHONY: all
 all: $(TARGET)

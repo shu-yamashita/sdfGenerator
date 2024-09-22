@@ -32,13 +32,12 @@ int main()
 
 	const float scale_factor = 0.008;
 
-	//sdfGenerator::sdf_from_stl<real>( ls_cc, file_path, num_cell, coord, offset, 1, 0.008 );
 	sdfGenerator::gpu::STL3D sdf_gene;
 	sdf_gene.readSTL( file_path, offset, scale_factor );
 	sdf_gene.refinePolygon( dh[0] );
-	sdf_gene.calcSDF( ls_cc, num_cell, coord );
+	//sdf_gene.calcSDF( ls_cc, num_cell, coord );
 
-	vtk_write<real>( "bunny.vtk", ls_cc, num_cell, dh );
+	//vtk_write<real>( "bunny.vtk", ls_cc, num_cell, dh );
 
 	delete[] ls_cc;
 	for (int axis = 0; axis < 3; axis++) delete[] (coord[axis]);
