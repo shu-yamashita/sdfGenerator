@@ -1,0 +1,54 @@
+#ifndef INCLUDED_SDFGENERATOR_DETAIL_COMMON_VECTOR_H
+#define INCLUDED_SDFGENERATOR_DETAIL_COMMON_VECTOR_H
+
+#include <cstddef>
+#include <sdfGenerator/detail/common/macro.h>
+
+namespace sdfGenerator
+{
+namespace detail
+{
+namespace common
+{
+
+
+// * Vector in Dim-dimensional space.
+template <typename T, size_t Dim>
+struct vector
+{
+protected:
+	T elem_[Dim];
+public:
+	SDFGENERATOR_CUDA_HOST_DEVICE
+	vector(): elem_{} {}
+
+	SDFGENERATOR_CUDA_HOST_DEVICE
+	T& operator[]( const size_t index );
+
+	SDFGENERATOR_CUDA_HOST_DEVICE
+	const T& operator[]( const size_t index ) const;
+};
+
+
+// * Calculate average vector in Dim-dimensional space.
+// * Arguments must have type vector<T, Dim>.
+template <typename T, size_t Dim, typename... Args>
+SDFGENERATOR_CUDA_HOST_DEVICE
+vector<T, Dim> calc_average_vector( const Args&... vectors );
+
+
+// * Calculate distance between two vertices in Dim-dimensional space.
+template <typename T, size_t Dim>
+SDFGENERATOR_CUDA_HOST_DEVICE
+T calc_distance( const vector<T, Dim>& v0, const vector<T, Dim>& v1 );
+
+
+} // namespace common 
+} // namespace detail
+} // namespace sdfGenerator
+
+
+#include <sdfGenerator/detail/common/vector.inl>
+
+
+#endif // INCLUDED_SDFGENERATOR_DETAIL_COMMON_VECTOR_H
