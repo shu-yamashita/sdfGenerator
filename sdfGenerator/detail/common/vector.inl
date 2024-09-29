@@ -30,6 +30,54 @@ const T& vector<T, Dim>::operator[]( const size_t index ) const
 }
 
 
+template <typename T, size_t Dim>
+SDFGENERATOR_CUDA_HOST_DEVICE
+vector<T, Dim> vector<T, Dim>::operator+( const vector<T, Dim>& other ) const
+{
+	vector<T, Dim> ret;
+	for (size_t i = 0; i < Dim; i++) ret[i] = elem_[i] + other[i];
+	return ret;
+}
+
+
+template <typename T, size_t Dim>
+SDFGENERATOR_CUDA_HOST_DEVICE
+vector<T, Dim> vector<T, Dim>::operator-( const vector<T, Dim>& other ) const
+{
+	vector<T, Dim> ret;
+	for (size_t i = 0; i < Dim; i++) ret[i] = elem_[i] - other[i];
+	return ret;
+}
+
+
+template <typename T, size_t Dim>
+SDFGENERATOR_CUDA_HOST_DEVICE
+bool vector<T, Dim>::operator==( const vector<T, Dim>& other ) const
+{
+	bool ret = true;
+	for (size_t i = 0; i < Dim; i++) ret &= ( elem_[i] == other[i] );
+	return ret;
+}
+
+
+template <typename T, size_t Dim>
+SDFGENERATOR_CUDA_HOST_DEVICE
+vector<T, Dim>& vector<T, Dim>::operator+=( const vector<T, Dim>& other )
+{
+	for (size_t i = 0; i < Dim; i++) elem_[i] += other[i];
+	return *this;
+}
+
+
+template <typename T, size_t Dim>
+SDFGENERATOR_CUDA_HOST_DEVICE
+vector<T, Dim>& vector<T, Dim>::operator-=( const vector<T, Dim>& other )
+{
+	for (size_t i = 0; i < Dim; i++) elem_[i] -= other[i];
+	return *this;
+}
+
+
 // * Calculate average vector in Dim-dimensional space.
 // * Arguments must have type vector<T, Dim>.
 template <typename T, size_t Dim, typename... Args>

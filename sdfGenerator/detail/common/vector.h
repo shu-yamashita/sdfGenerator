@@ -27,6 +27,21 @@ public:
 
 	SDFGENERATOR_CUDA_HOST_DEVICE
 	const T& operator[]( const size_t index ) const;
+
+	SDFGENERATOR_CUDA_HOST_DEVICE
+	vector<T, Dim> operator+( const vector<T, Dim>& other ) const;
+
+	SDFGENERATOR_CUDA_HOST_DEVICE
+	vector<T, Dim> operator-( const vector<T, Dim>& other ) const;
+
+	SDFGENERATOR_CUDA_HOST_DEVICE
+	bool operator==( const vector<T, Dim>& other ) const;
+
+	SDFGENERATOR_CUDA_HOST_DEVICE
+	vector<T, Dim>& operator+=( const vector<T, Dim>& other );
+
+	SDFGENERATOR_CUDA_HOST_DEVICE
+	vector<T, Dim>& operator-=( const vector<T, Dim>& other );
 };
 
 
