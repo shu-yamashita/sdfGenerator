@@ -97,12 +97,6 @@ public:
 	void calcSDF( T* sdf, const size_t (&num_cell)[3], const T* const (&coord)[3] ) const;
 };
 
-template <typename T>
-void STL::calcSDF( T* sdf, const size_t (&num_cell)[3], const T* const (&coord)[3] ) const
-{
-	// TODO
-}
-
 // old version
 //template <typename T>
 //void STL::calcSDF( T* sdf, const size_t (&num_cell)[3], const T* const (&coord)[3] ) const
