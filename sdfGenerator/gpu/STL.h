@@ -1,7 +1,7 @@
-#ifndef INCLUDED_SDFGENERATOR_GPU_STL3D_H
-#define INCLUDED_SDFGENERATOR_GPU_STL3D_H
+#ifndef INCLUDED_SDFGENERATOR_GPU_STL_H
+#define INCLUDED_SDFGENERATOR_GPU_STL_H
 
-#include <sdfGenerator/common/STL3D.h>
+#include <sdfGenerator/common/STL.h>
 
 namespace sdfGenerator
 {
@@ -90,7 +90,7 @@ namespace gpu
 //	sdf[index] = sign * nearest_dist[0];
 //}
 
-class STL3D: public common::STL3D
+class STL: public common::STL
 {
 public:
 	template <typename T>
@@ -98,14 +98,14 @@ public:
 };
 
 template <typename T>
-void STL3D::calcSDF( T* sdf, const size_t (&num_cell)[3], const T* const (&coord)[3] ) const
+void STL::calcSDF( T* sdf, const size_t (&num_cell)[3], const T* const (&coord)[3] ) const
 {
 	// TODO
 }
 
 // old version
 //template <typename T>
-//void STL3D::calcSDF( T* sdf, const size_t (&num_cell)[3], const T* const (&coord)[3] ) const
+//void STL::calcSDF( T* sdf, const size_t (&num_cell)[3], const T* const (&coord)[3] ) const
 //{
 //	const size_t num_cell_total = num_cell[0] * num_cell[1] * num_cell[2];
 
@@ -149,4 +149,4 @@ void STL3D::calcSDF( T* sdf, const size_t (&num_cell)[3], const T* const (&coord
 
 } // namespace sdfGenerator
 
-#endif // INCLUDED_SDFGENERATOR_GPU_STL3D_H
+#endif // INCLUDED_SDFGENERATOR_GPU_STL_H

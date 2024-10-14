@@ -1,10 +1,10 @@
-#ifndef INCLUDED_SDFGENERATOR_DETAIL_COMMON_STL3D_INL
-#define INCLUDED_SDFGENERATOR_DETAIL_COMMON_STL3D_INL
+#ifndef INCLUDED_SDFGENERATOR_DETAIL_COMMON_STL_INL
+#define INCLUDED_SDFGENERATOR_DETAIL_COMMON_STL_INL
 
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
-#include <sdfGenerator/common/STL3D.h>
+#include <sdfGenerator/common/STL.h>
 #include <sdfGenerator/detail/common/logger.h>
 #include <sdfGenerator/detail/common/polygon.h>
 #include <sdfGenerator/detail/common/vector.h>
@@ -16,7 +16,7 @@ namespace common
 {
 
 
-inline void STL3D::readSTL( const char* file_path )
+inline void STL::readSTL( const char* file_path )
 {
 	const float offset[3] = { 0.0, 0.0, 0.0 };
 	const float scale_factor = 1.0;
@@ -25,7 +25,7 @@ inline void STL3D::readSTL( const char* file_path )
 
 
 template <typename T>
-void STL3D::readSTL( const char* file_path, const T (&offset)[3] )
+void STL::readSTL( const char* file_path, const T (&offset)[3] )
 {
 	const float scale_factor = 1.0;
 	readSTL( file_path, offset, scale_factor );
@@ -33,7 +33,7 @@ void STL3D::readSTL( const char* file_path, const T (&offset)[3] )
 
 
 template <typename T>
-void STL3D::readSTL( const char* file_path, const T scale_factor )
+void STL::readSTL( const char* file_path, const T scale_factor )
 {
 	const float offset[3] = { 0.0, 0.0, 0.0 };
 	readSTL( file_path, offset, scale_factor );
@@ -41,7 +41,7 @@ void STL3D::readSTL( const char* file_path, const T scale_factor )
 
 
 template <typename T1, typename T2>
-void STL3D::readSTL( const char* file_path, const T1 (&offset)[3], const T2 scale_factor )
+void STL::readSTL( const char* file_path, const T1 (&offset)[3], const T2 scale_factor )
 {
 	sdfGenerator::detail::common::processLogger( "readSTL" );
 
@@ -91,7 +91,7 @@ void STL3D::readSTL( const char* file_path, const T1 (&offset)[3], const T2 scal
 
 
 template <typename T>
-void STL3D::refinePolygon( const T threshold )
+void STL::refinePolygon( const T threshold )
 {
 	sdfGenerator::detail::common::processLogger( "refinePolygon" );
 
@@ -101,7 +101,7 @@ void STL3D::refinePolygon( const T threshold )
 }
 
 
-inline void STL3D::refine_and_push( const triangle& tri, const float threshold )
+inline void STL::refine_and_push( const triangle& tri, const float threshold )
 {
 	namespace dtl_cmn = sdfGenerator::detail::common;
 
@@ -136,4 +136,4 @@ inline void STL3D::refine_and_push( const triangle& tri, const float threshold )
 } // namespace common 
 } // namespace sdfGenerator
 
-#endif // INCLUDED_SDFGENERATOR_DETAIL_COMMON_STL3D_INL
+#endif // INCLUDED_SDFGENERATOR_DETAIL_COMMON_STL_INL

@@ -1,5 +1,5 @@
-#ifndef INCLUDED_SDFGENERATOR_COMMON_STL3D_H
-#define INCLUDED_SDFGENERATOR_COMMON_STL3D_H
+#ifndef INCLUDED_SDFGENERATOR_COMMON_STL_H
+#define INCLUDED_SDFGENERATOR_COMMON_STL_H
 
 #include <sdfGenerator/detail/common/polygon.h>
 
@@ -9,7 +9,7 @@ namespace common
 {
 
 
-class STL3D
+class STL
 {
 public:
 	// * Read STL file and store the polygon data.
@@ -40,7 +40,7 @@ private:
 } // namespace sdfGenerator
 
 
-#include <sdfGenerator/detail/common/STL3D.inl>
+#include <sdfGenerator/detail/common/STL.inl>
 
 
-#endif // INCLUDED_SDFGENERATOR_COMMON_STL3D_H
+#endif // INCLUDED_SDFGENERATOR_COMMON_STL_H

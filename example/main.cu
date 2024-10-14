@@ -1,4 +1,4 @@
-#include <sdfGenerator/gpu/STL3D.h>
+#include <sdfGenerator/gpu/STL.h>
 #include "./vtk.h"
 
 using real = double;
@@ -32,7 +32,7 @@ int main()
 
 	const float scale_factor = 0.008;
 
-	sdfGenerator::gpu::STL3D sdf_gene;
+	sdfGenerator::gpu::STL sdf_gene;
 	sdf_gene.readSTL( file_path, offset, scale_factor );
 	sdf_gene.refinePolygon( dh[0] );
 	//sdf_gene.calcSDF( ls_cc, num_cell, coord );
