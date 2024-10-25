@@ -1,5 +1,5 @@
-#ifndef INCLUDED_SDFGENERATOR_CALCSDF_H
-#define INCLUDED_SDFGENERATOR_CALCSDF_H
+#ifndef INCLUDED_SDFGENERATOR_CALC_SDF_H
+#define INCLUDED_SDFGENERATOR_CALC_SDF_H
 
 
 #include <sdfGenerator/STL.h>
@@ -21,7 +21,7 @@ namespace gpu
 
 
 // TODO
-// void calcSDF( STL );
+// void calc_sdf( STL );
 
 
 } // namespace gpu
@@ -30,4 +30,4 @@ namespace gpu
 
 } // namespace sdfGenerator
 
-#endif
+#endif // INCLUDED_SDFGENERATOR_CALC_SDF_H

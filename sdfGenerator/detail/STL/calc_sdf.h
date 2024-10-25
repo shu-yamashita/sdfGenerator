@@ -1,5 +1,5 @@
-#ifndef INCLUDED_SDFGENERATOR_DETAIL_STL_CALCSDF_INL
-#define INCLUDED_SDFGENERATOR_DETAIL_STL_CALCSDF_INL
+#ifndef INCLUDED_SDFGENERATOR_DETAIL_STL_CALC_SDF_INL
+#define INCLUDED_SDFGENERATOR_DETAIL_STL_CALC_SDF_INL
 
 
 namespace sdfGenerator
@@ -17,7 +17,7 @@ namespace gpu
 
 
 // TODO
-//void calcSDF( STL )
+//void calc_sdf( STL )
 //{
 //}
 
@@ -29,4 +29,4 @@ namespace gpu
 } // namespace sdfGenerator
 
 
-#endif // INCLUDED_SDFGENERATOR_DETAIL_STL_CALCSDF_INL
+#endif // INCLUDED_SDFGENERATOR_DETAIL_STL_CALC_SDF_INL
