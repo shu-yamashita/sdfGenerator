@@ -2,11 +2,11 @@
 #define INCLUDED_SDFGENERATOR_DETAIL_COMMON_MACRO_H
 
 
-#ifdef __CUDACC__
+#ifdef __NVCC__
 	#define SDFGENERATOR_CUDA_HOST_DEVICE __host__ __device__
 #else
 	#define SDFGENERATOR_CUDA_HOST_DEVICE
-#endif // __CUDACC__
+#endif // __NVCC__
 
 
 #endif // INCLUDED_SDFGENERATOR_DETAIL_COMMON_MACRO_H
