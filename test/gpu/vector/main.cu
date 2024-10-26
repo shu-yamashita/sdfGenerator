@@ -1,6 +1,6 @@
 #include <cstdlib>
 #include <iostream>
-#include <sdfGenerator/detail/common/vector.h>
+#include <sdfGenerator/detail/internal/vector.h>
 
 
 void check_cuda_error()
@@ -18,7 +18,7 @@ template <typename T, size_t Dim>
 __host__ __device__
 void TestDefaultConstructor()
 {
-	sdfGenerator::detail::common::vector<T, Dim> vec;
+	sdfGenerator::internal::vector<T, Dim> vec;
 	for (size_t i = 0; i <  Dim; i++) assert( vec[i] == T() );
 }
 
@@ -40,7 +40,7 @@ template <typename T, size_t Dim>
 __host__ __device__
 void TestSame()
 {
-	sdfGenerator::detail::common::vector<T, Dim> vec1, vec2;
+	sdfGenerator::internal::vector<T, Dim> vec1, vec2;
 	for (size_t i = 0; i < Dim; i++) vec1[i] = 0;
 	assert( vec1 == vec2 );
 }
@@ -63,13 +63,13 @@ template <typename T, size_t Dim, size_t N>
 __host__ __device__
 void TestAddSub()
 {
-	sdfGenerator::detail::common::vector<T, Dim> sum, sub, sum_op_p, sub_op_m;
+	sdfGenerator::internal::vector<T, Dim> sum, sub, sum_op_p, sub_op_m;
 	T ans_sum[Dim] = {};
 	T ans_sub[Dim] = {};
 
 	for (size_t id = 0; id < N; id++)
 	{
-		sdfGenerator::detail::common::vector<T, Dim> vec;
+		sdfGenerator::internal::vector<T, Dim> vec;
 
 		for (size_t axis = 0; axis < Dim; axis++)
 		{

@@ -1,14 +1,12 @@
-#ifndef INCLUDED_SDFGENERATOR_DETAIL_COMMON_LOGGER_H
-#define INCLUDED_SDFGENERATOR_DETAIL_COMMON_LOGGER_H
+#ifndef INCLUDED_SDFGENERATOR_DETAIL_INTERNAL_LOGGER_H
+#define INCLUDED_SDFGENERATOR_DETAIL_INTERNAL_LOGGER_H
 
 #include <cstdio>
 #include <string>
 
 namespace sdfGenerator
 {
-namespace detail
-{
-namespace common
+namespace internal
 {
 
 class processLogger
@@ -28,8 +26,7 @@ public:
 	}
 };
 
-} // namespace common
-} // namespace detail
+} // namespace internal
 } // namespace sdfGenerator
 
-#endif // INCLUDED_SDFGENERATOR_DETAIL_COMMON_LOGGER_H
+#endif // INCLUDED_SDFGENERATOR_DETAIL_INTERNAL_LOGGER_H

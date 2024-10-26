@@ -1,15 +1,13 @@
-#ifndef INCLUDED_SDFGENERATOR_DETAIL_COMMON_POLYGON_H
-#define INCLUDED_SDFGENERATOR_DETAIL_COMMON_POLYGON_H
+#ifndef INCLUDED_SDFGENERATOR_DETAIL_INTERNAL_POLYGON_H
+#define INCLUDED_SDFGENERATOR_DETAIL_INTERNAL_POLYGON_H
 
 #include <utility>
-#include <sdfGenerator/detail/common/vector.h>
+#include <sdfGenerator/detail/internal/vector.h>
 
 
 namespace sdfGenerator
 {
-namespace detail
-{
-namespace common
+namespace internal
 {
 
 
@@ -62,11 +60,10 @@ template <typename T, size_t Dim>
 std::pair<size_t, T> find_longest_edge_triangle( const polygon<T, 3, Dim>& tri );
 
 
-} // namespace common 
-} // namespace detail
+} // namespace internal
 } // namespace sdfGenerator
 
 
-#include <sdfGenerator/detail/common/polygon.inl>
+#include <sdfGenerator/detail/internal/polygon.inl>
 
-#endif // INCLUDED_SDFGENERATOR_DETAIL_COMMON_POLYGON_H
+#endif // INCLUDED_SDFGENERATOR_DETAIL_INTERNAL_POLYGON_H

@@ -1,15 +1,13 @@
-#ifndef INCLUDED_SDFGENERATOR_DETAIL_COMMON_VECTOR_INL
-#define INCLUDED_SDFGENERATOR_DETAIL_COMMON_VECTOR_INL
+#ifndef INCLUDED_SDFGENERATOR_DETAIL_INTERNAL_VECTOR_INL
+#define INCLUDED_SDFGENERATOR_DETAIL_INTERNAL_VECTOR_INL
 
 #include <cassert>
 #include <cmath>
-#include <sdfGenerator/detail/common/macro.h>
+#include <sdfGenerator/detail/internal/macro.h>
 
 namespace sdfGenerator
 {
-namespace detail
-{
-namespace common
+namespace internal
 {
 
 template <typename T, size_t Dim>
@@ -108,9 +106,8 @@ T calc_distance( const vector<T, Dim>& v0, const vector<T, Dim>& v1 )
 }
 
 
-} // namespace common 
-} // namespace detail
+} // namespace internal
 } // namespace sdfGenerator
 
 
-#endif // INCLUDED_SDFGENERATOR_DETAIL_COMMON_VECTOR_INL
+#endif // INCLUDED_SDFGENERATOR_DETAIL_INTERNAL_VECTOR_INL

@@ -1,7 +1,7 @@
 #ifndef INCLUDED_SDFGENERATOR_STL_H
 #define INCLUDED_SDFGENERATOR_STL_H
 
-#include <sdfGenerator/detail/common/polygon.h>
+#include <sdfGenerator/detail/internal/polygon.h>
 
 namespace sdfGenerator
 {
@@ -25,7 +25,7 @@ public:
 	void refinePolygon( const T threshold );
 
 protected:
-	using triangle = sdfGenerator::detail::common::polygon<float, 3, 3>;
+	using triangle = internal::polygon<float, 3, 3>;
 
 	std::vector<triangle> triangles_;
 
@@ -37,7 +37,7 @@ private:
 } // namespace sdfGenerator
 
 
-#include <sdfGenerator/detail/STL/STL.inl>
+#include <sdfGenerator/detail/STL.inl>
 
 
 #endif // INCLUDED_SDFGENERATOR_STL_H

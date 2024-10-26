@@ -1,18 +1,16 @@
-#ifndef INCLUDED_SDFGENERATOR_DETAIL_COMMON_STL_INL
-#define INCLUDED_SDFGENERATOR_DETAIL_COMMON_STL_INL
+#ifndef INCLUDED_SDFGENERATOR_DETAIL_STL_INL
+#define INCLUDED_SDFGENERATOR_DETAIL_STL_INL
 
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
-#include <sdfGenerator/common/STL.h>
-#include <sdfGenerator/detail/common/logger.h>
-#include <sdfGenerator/detail/common/polygon.h>
-#include <sdfGenerator/detail/common/vector.h>
+#include <sdfGenerator/STL.h>
+#include <sdfGenerator/detail/internal/logger.h>
+#include <sdfGenerator/detail/internal/polygon.h>
+#include <sdfGenerator/detail/internal/vector.h>
 
 
 namespace sdfGenerator
-{
-namespace common
 {
 
 
@@ -43,7 +41,7 @@ void STL::readSTL( const char* file_path, const T scale_factor )
 template <typename T1, typename T2>
 void STL::readSTL( const char* file_path, const T1 (&offset)[3], const T2 scale_factor )
 {
-	sdfGenerator::detail::common::processLogger( "readSTL" );
+	internal::processLogger( "readSTL" );
 
     std::ifstream ifs( file_path, std::ios::in | std::ios::binary );
 
@@ -62,9 +60,7 @@ void STL::readSTL( const char* file_path, const T1 (&offset)[3], const T2 scale_
 	// Read polygon data.
 	for (unsigned int id_p = 0; id_p < num_polygons; id_p++)
 	{
-		namespace dtl_cmn = sdfGenerator::detail::common;
-
-		dtl_cmn::vector<float, 3> vbuff[3], nbuff;
+		internal::vector<float, 3> vbuff[3], nbuff;
 
 		// Read normal vector.
 		for (size_t axis = 0; axis < 3; axis++) ifs.read( (char*) &(nbuff[axis]), sizeof(float) );
@@ -78,7 +74,7 @@ void STL::readSTL( const char* file_path, const T1 (&offset)[3], const T2 scale_
 
 		triangle tri;
 		tri.set_vertices( vbuff[0], vbuff[1], vbuff[2] ); 
-		tri.set_center( dtl_cmn::calc_average_vector<float, 3>( vbuff[0], vbuff[1], vbuff[2] ) );
+		tri.set_center( internal::calc_average_vector<float, 3>( vbuff[0], vbuff[1], vbuff[2] ) );
 		tri.set_normal( nbuff );
 
 		triangles_.push_back( tri );
@@ -93,7 +89,7 @@ void STL::readSTL( const char* file_path, const T1 (&offset)[3], const T2 scale_
 template <typename T>
 void STL::refinePolygon( const T threshold )
 {
-	sdfGenerator::detail::common::processLogger( "refinePolygon" );
+	internal::processLogger( "refinePolygon" );
 
 	std::vector<triangle> triangles_buff = triangles_;
 	triangles_.clear();
@@ -103,9 +99,7 @@ void STL::refinePolygon( const T threshold )
 
 inline void STL::refine_and_push( const triangle& tri, const float threshold )
 {
-	namespace dtl_cmn = sdfGenerator::detail::common;
-
-	const std::pair<size_t, float> max_edge = dtl_cmn::find_longest_edge_triangle( tri );
+	const std::pair<size_t, float> max_edge = internal::find_longest_edge_triangle( tri );
 
 	if ( max_edge.second <= threshold )
 	{
@@ -117,15 +111,15 @@ inline void STL::refine_and_push( const triangle& tri, const float threshold )
 	triangle tri0, tri1;
 
 	// The longest edge connects tmp_v0 and tmp_v1.
-	const dtl_cmn::vector<float, 3> tmp_v0 = tri.vertex( (max_edge.first + 1) % 3 );
-	const dtl_cmn::vector<float, 3> tmp_v1 = tri.vertex( (max_edge.first + 2) % 3 );
+	const internal::vector<float, 3> tmp_v0 = tri.vertex( (max_edge.first + 1) % 3 );
+	const internal::vector<float, 3> tmp_v1 = tri.vertex( (max_edge.first + 2) % 3 );
 
-	const dtl_cmn::vector<float, 3> new_vertex = dtl_cmn::calc_average_vector<float, 3>( tmp_v0, tmp_v1 );
+	const internal::vector<float, 3> new_vertex = internal::calc_average_vector<float, 3>( tmp_v0, tmp_v1 );
 
 	tri0.set_vertices( tri.vertex(max_edge.first), tmp_v0, new_vertex );
 	tri1.set_vertices( tri.vertex(max_edge.first), tmp_v1, new_vertex );
-	tri0.set_center( dtl_cmn::calc_average_vector<float, 3>( tri0.vertex(0), tri0.vertex(1), tri0.vertex(2) ) );
-	tri1.set_center( dtl_cmn::calc_average_vector<float, 3>( tri1.vertex(0), tri1.vertex(1), tri1.vertex(2) ) );
+	tri0.set_center( internal::calc_average_vector<float, 3>( tri0.vertex(0), tri0.vertex(1), tri0.vertex(2) ) );
+	tri1.set_center( internal::calc_average_vector<float, 3>( tri1.vertex(0), tri1.vertex(1), tri1.vertex(2) ) );
 	tri0.set_normal( tri.normal() );
 	tri1.set_normal( tri.normal() );
 
@@ -133,7 +127,8 @@ inline void STL::refine_and_push( const triangle& tri, const float threshold )
 	refine_and_push( tri1, threshold );
 }
 
-} // namespace common 
+
 } // namespace sdfGenerator
 
-#endif // INCLUDED_SDFGENERATOR_DETAIL_COMMON_STL_INL
+
+#endif // INCLUDED_SDFGENERATOR_DETAIL_STL_INL

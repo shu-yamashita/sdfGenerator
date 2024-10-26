@@ -1,14 +1,12 @@
-#ifndef INCLUDED_SDFGENERATOR_DETAIL_COMMON_VECTOR_H
-#define INCLUDED_SDFGENERATOR_DETAIL_COMMON_VECTOR_H
+#ifndef INCLUDED_SDFGENERATOR_DETAIL_INTERNAL_VECTOR_H
+#define INCLUDED_SDFGENERATOR_DETAIL_INTERNAL_VECTOR_H
 
 #include <cstddef>
-#include <sdfGenerator/detail/common/macro.h>
+#include <sdfGenerator/detail/internal/macro.h>
 
 namespace sdfGenerator
 {
-namespace detail
-{
-namespace common
+namespace internal
 {
 
 
@@ -58,12 +56,11 @@ SDFGENERATOR_CUDA_HOST_DEVICE
 T calc_distance( const vector<T, Dim>& v0, const vector<T, Dim>& v1 );
 
 
-} // namespace common 
-} // namespace detail
+} // namespace internal
 } // namespace sdfGenerator
 
 
-#include <sdfGenerator/detail/common/vector.inl>
+#include <sdfGenerator/detail/internal/vector.inl>
 
 
-#endif // INCLUDED_SDFGENERATOR_DETAIL_COMMON_VECTOR_H
+#endif // INCLUDED_SDFGENERATOR_DETAIL_INTERNAL_VECTOR_H

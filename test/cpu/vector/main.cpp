@@ -1,10 +1,10 @@
 #include <iostream>
-#include <sdfGenerator/detail/common/vector.h>
+#include <sdfGenerator/detail/internal/vector.h>
 
 template <typename T, size_t Dim>
 void TestDefaultConstructorHost()
 {
-	sdfGenerator::detail::common::vector<T, Dim> vec;
+	sdfGenerator::internal::vector<T, Dim> vec;
 	for (size_t i = 0; i <  Dim; i++) assert( vec[i] == T() );
 }
 
