@@ -86,6 +86,24 @@ void STL::readSTL( const char* file_path, const T1 (&offset)[3], const T2 scale_
 }
 
 
+inline size_t STL::getNumPolygon() const
+{
+	return triangles_.size();
+}
+
+
+inline STL::triangle* STL::getPolygonData()
+{
+	return triangles_.data();
+}
+
+
+inline const STL::triangle* STL::getPolygonData() const
+{
+	return triangles_.data();
+}
+
+
 template <typename T>
 void STL::refinePolygon( const T threshold )
 {

@@ -30,4 +30,8 @@ namespace gpu
 
 } // namespace sdfGenerator
 
+
+#include <sdfGenerator/detail/stl_to_sdf.inl>
+
+
 #endif // INCLUDED_SDFGENERATOR_STL_TO_SDF_H

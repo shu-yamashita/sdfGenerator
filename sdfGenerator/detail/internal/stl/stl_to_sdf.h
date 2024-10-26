@@ -1,19 +1,16 @@
-#ifndef INCLUDED_SDFGENERATOR_DETAIL_STL_TO_SDF_INL
-#define INCLUDED_SDFGENERATOR_DETAIL_STL_TO_SDF_INL
+#ifndef INCLUDED_SDFGENERATOR_DETAIL_INTERNAL_STL_STL_TO_SDF_H
+#define INCLUDED_SDFGENERATOR_DETAIL_INTERNAL_STL_STL_TO_SDF_H
 
 
 #include <sdfGenerator/STL.h>
-#include <sdfGenerator/stl_to_sdf.h>
-#include <sdfGenerator/detail/internal/stl/stl_to_sdf.h>
 
 
 namespace sdfGenerator
 {
-
-
-namespace cpu
+namespace internal
 {
-} // namespace cpu
+namespace stl
+{
 
 
 #ifdef __NVCC__
@@ -35,17 +32,18 @@ void stl_to_sdf(
 		const T* y,
 		const T* z,
 		size_t N,
-		const STL& stl)
-{
-	// Call internal function.
-}
+		const STL& stl);
 
 
 } // namespace gpu
 #endif // __NVCC__
 
 
+} // namespace stl
+} // namespace internal
 } // namespace sdfGenerator
 
 
-#endif // INCLUDED_SDFGENERATOR_DETAIL_STL_TO_SDF_INL
+#include <sdfGenerator/detail/internal/stl/stl_to_sdf.inl>
+
+#endif // INCLUDED_SDFGENERATOR_DETAIL_INTERNAL_STL_STL_TO_SDF_H

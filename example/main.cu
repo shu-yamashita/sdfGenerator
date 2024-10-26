@@ -1,4 +1,5 @@
 #include <sdfGenerator/STL.h>
+#include <sdfGenerator/stl_to_sdf.h>
 #include "./vtk.h"
 
 using real = double;
