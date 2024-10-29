@@ -25,8 +25,8 @@ namespace gpu
 // * All pointers (T*) are the host.
 // * Parameters:
 //   - sdf: signed distance function.
-//   - x, y, z: coordinate at each position.
-//   - N: number of positions.
+//   - x, y, z: coordinate at each node.
+//   - N_node: number of nodes.
 //   - stl: STL data.
 template <typename T>
 void stl_to_sdf(
@@ -34,10 +34,10 @@ void stl_to_sdf(
 		const T* x,
 		const T* y,
 		const T* z,
-		size_t N,
+		size_t N_node,
 		const STL& stl)
 {
-	// Call internal function.
+	sdfGenerator::internal::stl::gpu::stl_to_sdf_host_ptr( sdf, x, y, z, N_node, stl );
 }
 
 
