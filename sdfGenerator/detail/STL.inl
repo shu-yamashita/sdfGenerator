@@ -41,7 +41,7 @@ void STL::readSTL( const char* file_path, const T scale_factor )
 template <typename T1, typename T2>
 void STL::readSTL( const char* file_path, const T1 (&offset)[3], const T2 scale_factor )
 {
-	internal::processLogger( "readSTL" );
+	internal::processLogger proc_logger( "readSTL" );
 
     std::ifstream ifs( file_path, std::ios::in | std::ios::binary );
 
@@ -107,7 +107,7 @@ inline const STL::triangle* STL::getPolygonData() const
 template <typename T>
 void STL::refinePolygon( const T threshold )
 {
-	internal::processLogger( "refinePolygon" );
+	internal::processLogger proc_logger( "refinePolygon" );
 
 	std::vector<triangle> triangles_buff = triangles_;
 	triangles_.clear();
