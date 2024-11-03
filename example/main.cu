@@ -40,7 +40,7 @@ int main()
 	stl.refinePolygon( dh[0] );
 	sdfGenerator::gpu::stl_to_sdf( ls_cc, coord_x, coord_y, coord_z, NXYZ, stl );
 
-	//vtk_write<real>( "bunny.vtk", ls_cc, num_cell, dh );
+	vtk_write<real>( "bunny.vtk", ls_cc, num_cell, dh );
 
 	delete[] ls_cc;
 	delete[] coord_x;

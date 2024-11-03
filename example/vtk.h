@@ -18,8 +18,8 @@ template <typename T>
 void vtk_write(
 		const char* vtk_filename,
 		const T* ls_cc,
-		const int num_cell[3],
-		const float dh[3] )
+		const size_t num_cell[3],
+		const T dh[3] )
 {
 	std::ofstream ofs( vtk_filename );
 	ofs << "# vtk DataFile Version 1.0" << std::endl;

@@ -2,7 +2,9 @@
 #define INCLUDED_SDFGENERATOR_DETAIL_INTERNAL_STL_STL_TO_SDF_INL
 
 
+#include <sdfGenerator/detail/internal/polygon.h>
 #include <sdfGenerator/detail/internal/stl/stl_to_sdf.h>
+#include <sdfGenerator/detail/internal/vector.h>
 
 
 namespace sdfGenerator
@@ -142,8 +144,61 @@ inline float compute_sdf_at_given_coord(
 		const STL::triangle* triangles,
 		const size_t N_tri )
 {
-	// TODO: impl.
-	return 0.0; // test
+	sdfGenerator::internal::vector<float, 3> here;
+	here[0] = x; here[1] = y; here[2] = z;
+
+	// The number of recorded nearest triangles.
+	constexpr size_t num_memo = 8;
+
+	// Nearest triangles info.
+	long long nearest_id[num_memo];
+	float nearest_dist[num_memo];
+	for (size_t i = 0; i < num_memo; i++)
+	{
+		nearest_id[i] = -1;
+		nearest_dist[i] = 1e10;
+	}
+
+	// Search all triangles
+	for (size_t id_tri = 0; id_tri < N_tri; id_tri++)
+	{
+		const float dist_now = calc_distance( triangles[id_tri].center(), here );
+
+		// Update nearest triangles info.
+		for (size_t i_memo = 0; i_memo < num_memo; i_memo++)
+		{
+			if ( nearest_id[i_memo] == -1 || dist_now < nearest_dist[i_memo] )
+			{
+				for (size_t j_memo = num_memo - 1; j_memo > i_memo; j_memo--)
+				{
+					nearest_id[j_memo] = nearest_id[j_memo - 1];
+					nearest_dist[j_memo] = nearest_dist[j_memo - 1];
+				}
+				nearest_id[i_memo] = id_tri;
+				nearest_dist[i_memo] = dist_now;
+				break;
+			}
+		}
+	}
+
+	// sum of inner product ( (unit vector to triangle) * (normal vector of triangle) ).
+	float sum_inner_prod = 0.0;
+	for (size_t i_memo = 0; i_memo < num_memo; i_memo++)
+	{
+		float inner_prod = 0.0;
+		const long long id_tri = nearest_id[i_memo];
+		const float dist_tri = nearest_dist[i_memo];
+		if ( id_tri == -1 ) break;
+		for (size_t axis = 0; axis < 3; axis++)
+		{
+			inner_prod += (triangles[id_tri].center()[axis] - here[axis]) * triangles[id_tri].normal()[axis];
+		}
+		inner_prod /= dist_tri;
+		sum_inner_prod += inner_prod;
+	}
+
+	const float sign = ( sum_inner_prod > 0.0 ? 1.0 : -1.0 );
+	return sign * nearest_dist[0];
 }
 
 
