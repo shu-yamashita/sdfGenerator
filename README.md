@@ -21,7 +21,7 @@ and run the generated executable file `a.out.`
 ./a.out
 ```
 
-In this example, the SDF is calculated from the STL file [example/Stanford_Bunny.stl](./example/Stanford_Bunny.stl) (downloaded from [here](https://commons.wikimedia.org/wiki/File:Stanford_Bunny.stl?uselang=ja)) and output the result to the file `bunny.vtk`.
-The results can be visualized in paraview.
+In this example, the SDF is calculated from the STL of "Stanford bunny" (can be downloaded from [here](https://commons.wikimedia.org/wiki/File:Stanford_Bunny.stl?uselang=ja)) and outputs the result to the file `bunny.vtk`.
+The results can be visualized in Paraview.
 
 <img src="./figs/example_bunny.png" width = 80%>
