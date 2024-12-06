@@ -4,6 +4,7 @@
 
 #include <sdfGenerator/STL.h>
 #include <sdfGenerator/stl_to_sdf.h>
+#include <sdfGenerator/detail/internal/logger.h>
 #include <sdfGenerator/detail/internal/stl/stl_to_sdf.h>
 
 
@@ -37,6 +38,7 @@ void stl_to_sdf(
 		size_t N_node,
 		const STL& stl)
 {
+	sdfGenerator::internal::processLogger proc_logger( "stl_to_sdf" );
 	sdfGenerator::internal::stl::gpu::stl_to_sdf_host_ptr( sdf, x, y, z, N_node, stl );
 }
 
