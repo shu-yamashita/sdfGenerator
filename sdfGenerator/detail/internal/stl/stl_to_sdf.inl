@@ -100,7 +100,7 @@ void stl_to_sdf_device_ptr(
 	const dim3 block(thread_per_block, 1, 1);
 	const dim3 grid( (N_node + thread_per_block - 1) / thread_per_block, 1, 1 );
 	stl_to_sdf_kernel<<<grid, block>>>( d_sdf, d_x, d_y, d_z, N_node, d_triangles, N_tri );
-	cudaDeviceSynchronize(); // TODO: CUDA_SAFE_CALL
+	CUDA_SAFE_CALL( cudaDeviceSynchronize() );
 
 	cudaFree( d_triangles );
 }
