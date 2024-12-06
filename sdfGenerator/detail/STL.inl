@@ -1,6 +1,7 @@
 #ifndef INCLUDED_SDFGENERATOR_DETAIL_STL_INL
 #define INCLUDED_SDFGENERATOR_DETAIL_STL_INL
 
+#include <cstdio>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
@@ -57,6 +58,8 @@ void STL::readSTL( const char* file_path, const T1 (&offset)[3], const T2 scale_
 	ifs.seekg(80, std::ios_base::beg);
 	ifs.read( (char*) &num_polygons, sizeof(unsigned int) );
 
+	std::printf("[sdfGenerator] Polygon Count: %u\n", num_polygons);
+
 	// Read polygon data.
 	for (unsigned int id_p = 0; id_p < num_polygons; id_p++)
 	{
@@ -109,9 +112,17 @@ void STL::refinePolygon( const T threshold )
 {
 	internal::processLogger proc_logger( "refinePolygon" );
 
+	const size_t num_tri_before_refine = triangles_.size();
+	std::printf("[sdfGenerator] Polygon Count Before Refinement: %zu\n", num_tri_before_refine);
+
 	std::vector<triangle> triangles_buff = triangles_;
 	triangles_.clear();
 	for ( const auto& each_tri : triangles_buff ) refine_and_push( each_tri, threshold );
+
+	const size_t num_tri_after_refine = triangles_.size();
+	const float increase_factor = (float) num_tri_after_refine / num_tri_before_refine;
+
+	std::printf("[sdfGenerator] Polygon Count After Refinement : %zu (Increased %.2f Times)\n", num_tri_after_refine, increase_factor);
 }
 
 

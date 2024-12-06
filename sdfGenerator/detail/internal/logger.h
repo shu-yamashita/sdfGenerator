@@ -17,12 +17,12 @@ private:
 public:
 	processLogger( const std::string& str ): str_(str)
 	{
-		printf("[sdfGenerator]: %s started.\n", str_.c_str());
+		printf("[sdfGenerator] %s started.\n", str_.c_str());
 	}
 
 	~processLogger()
 	{
-		printf("[sdfGenerator]: %s ended.\n", str_.c_str());
+		printf("[sdfGenerator] %s ended.\n", str_.c_str());
 	}
 };
 
