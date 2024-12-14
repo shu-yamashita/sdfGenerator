@@ -2,6 +2,9 @@
 
 sdfGenerator is a C++ header-only library for computing the signed distance function (SDF).
 
+> [!WARNING]
+> This library is under development. Destructive changes may occur.
+
 <img src="./figs/example_bunny.png" width = 80%>
 
 ## Currently available features
