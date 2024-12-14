@@ -1,27 +1,61 @@
 # sdfGenerator
+
 sdfGenerator is a C++ header-only library for computing the signed distance function (SDF).
+
+<img src="./figs/example_bunny.png" width = 80%>
 
 ## Currently available features
 
 * Generate SDF from STL using CUDA
 
-## Example
+## Examples
 
-See [example/main.cu](./example/main.cu).
+The following example reads STL data from `./example.stl` and generates the signed distance function (SDF) at each grid point in the Cartesian grid ($100 \times 100 \times 100$) using a GPU.
+```cpp
+#include <vector>
+#include <sdfGenerator/STL.h>
+#include <sdfGenerator/stl_to_sdf.h>
 
-Note: To run [example/main.cu](./example/main.cu), compile with
+int main()
+{
+	const size_t NX = 100, NY = 100, NZ = 100; // The number of grid points in each axis.
+	const size_t NXYZ = NX * NY * NZ;          // The number of total grid points.
 
+	std::vector<float> coord_x(NXYZ), coord_y(NXYZ), coord_z(NXYZ); // Coordinates at each grid point.
+
+	// Set coordinates at each grid point.
+	for (size_t k = 0; k < NZ; k++) for (size_t j = 0; j < NY; j++) for (size_t i = 0; i < NX; i++) {
+		const size_t index = i + j*NX + k*NX*NY;
+		coord_x[index] = i * 1e-2;
+		coord_y[index] = j * 1e-2;
+		coord_z[index] = k * 1e-2;
+	}
+
+	sdfGenerator::STL stl;
+
+	// Read STL data from the file.
+	stl.readSTL( "./example.stl" );
+
+	std::vector<float> sdf(NXYZ); // Signed distance function at each grid point.
+
+	// Generate the signed distance function at each grid point.
+	sdfGenerator::gpu::stl_to_sdf( sdf.data(), coord_x.data(), coord_y.data(), coord_z.data(), NXYZ, stl );
+}
 ```
-make
+
+## Getting the source code
+
+To download the source code, do
+```
+git clone git@github.com:shu-yamashita/sdfGenerator.git
 ```
 
-and run the generated executable file `a.out.`
-
+If you want to update the source code later, you need to do
 ```
-./a.out
+git pull
 ```
 
-In this example, the SDF is calculated from the STL of "Stanford bunny" (can be downloaded from [here](https://commons.wikimedia.org/wiki/File:Stanford_Bunny.stl?uselang=ja)) and outputs the result to the file `bunny.vtk`.
-The results can be visualized in Paraview.
+## Using sdfGenerator
+sdfGenerator is a header-only library, so you can use it by including it in your code.
 
-<img src="./figs/example_bunny.png" width = 80%>
+Compile your project with `-I<sdfGenerator repo root>`.
