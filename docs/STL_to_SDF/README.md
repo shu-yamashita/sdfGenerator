@@ -102,8 +102,18 @@ float *sdf = new float[N];
 ```
 
 ### Calculate the SDF
-Use the `sdfGenerator::gpu::stl_to_sdf()` function to compute the SDF values.  
+Use the `stl_to_sdf()` function to compute the SDF values.  
+This function can switch between CPU and GPU calculations by changing the namespace as follows.
+* `sdfGenerator::cpu::stl_to_sdf()`: Calculates the SDF on the CPU (not implemented currently).
+* `sdfGenerator::gpu::stl_to_sdf()`: Calculates the SDF on the GPU.  
+It requires that you use `nvcc` as the compiler and that NVIDIA GPUs are available.
+
 This function performs the necessary computations and fills the `sdf` array with the signed distances.
 ```cpp
+// Calculate SDF on CPU (Not implemented curretly).
+sdfGenerator::cpu::stl_to_sdf( sdf, x, y, z, N, stl );
+```
+```cpp
+// Calculate SDF on GPU
 sdfGenerator::gpu::stl_to_sdf( sdf, x, y, z, N, stl );
 ```
