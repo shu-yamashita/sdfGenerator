@@ -7,9 +7,12 @@ sdfGenerator is a C++ header-only library for computing the signed distance func
 
 <img src="./figs/example_bunny.png" width = 80%>
 
+The `Stanford_Bunny.stl` in this figure can be downloaded from [here](https://commons.wikimedia.org/wiki/File:Stanford_Bunny.stl?uselang=ja).
+
+
 ## Currently available features
 
-* Generate SDF from STL using CUDA
+* Generate SDF from STL using CUDA [[Document](https://github.com/shu-yamashita/sdfGenerator/tree/main/docs/STL_to_SDF)]
 
 ## Examples
 
@@ -41,7 +44,7 @@ int main()
 
 	std::vector<float> sdf(NXYZ); // Signed distance function at each grid point.
 
-	// Generate the signed distance function at each grid point.
+	// Calculate the SDF at each grid point and fill the array sdf.
 	sdfGenerator::gpu::stl_to_sdf( sdf.data(), coord_x.data(), coord_y.data(), coord_z.data(), NXYZ, stl );
 }
 ```
@@ -62,3 +65,6 @@ git pull
 sdfGenerator is a header-only library, so you can use it by including it in your code.
 
 Compile your project with `-I<sdfGenerator repo root>`.
+
+## Links
+* [Github repository](https://github.com/shu-yamashita/sdfGenerator)
